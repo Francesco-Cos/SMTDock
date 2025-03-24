@@ -1,0 +1,47 @@
+REMARK  6 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: O1_1  and  C1_3 
+REMARK    2  A    between atoms: C1_3  and  C2_4 
+REMARK    3  A    between atoms: C3_6  and  O3_7 
+REMARK    4  A    between atoms: C4_9  and  O4_10 
+REMARK    5  A    between atoms: C5_12  and  N1_13 
+REMARK    6  A    between atoms: C8_17  and  N3_18 
+ROOT
+ATOM      1  C2  MOL  7029      58.900  54.640  68.680  1.00  0.00     0.179 C 
+ATOM      2  O2  MOL  7029      59.070  54.840  70.070  1.00  0.00    -0.353 OA
+ATOM      3  C3  MOL  7029      59.210  53.160  68.480  1.00  0.00     0.182 C 
+ATOM      4  C4  MOL  7029      60.360  52.970  69.450  1.00  0.00     0.198 C 
+ATOM      5  C5  MOL  7029      59.920  53.870  70.620  1.00  0.00     0.262 C 
+ENDROOT
+BRANCH   5   6
+ATOM      6  N1  MOL  7029      59.180  53.140  71.640  1.00  0.00    -0.294 N 
+ATOM      7  C6  MOL  7029      57.840  53.150  71.920  1.00  0.00     0.214 A 
+ATOM      8  N2  MOL  7029      57.520  52.420  72.930  1.00  0.00    -0.236 NA
+ATOM      9  C7  MOL  7029      58.720  51.890  73.370  1.00  0.00     0.149 A 
+ATOM     10  C8  MOL  7029      59.070  51.040  74.420  1.00  0.00     0.155 A 
+ATOM     11  C10 MOL  7029      59.760  52.340  72.580  1.00  0.00     0.167 A 
+ATOM     12  N4  MOL  7029      60.350  50.720  74.580  1.00  0.00    -0.222 NA
+ATOM     13  C9  MOL  7029      61.240  51.220  73.740  1.00  0.00     0.237 A 
+ATOM     14  N5  MOL  7029      61.050  52.020  72.720  1.00  0.00    -0.222 NA
+BRANCH  10  15
+ATOM     15  N3  MOL  7029      58.160  50.510  75.250  1.00  0.00    -0.382 N 
+ATOM     16  H11 MOL  7029      57.230  50.860  75.250  1.00  0.00     0.157 HD
+ATOM     17  H12 MOL  7029      58.490  50.050  76.070  1.00  0.00     0.157 HD
+ENDBRANCH  10  15
+ENDBRANCH   5   6
+BRANCH   4  18
+ATOM     18  O4  MOL  7029      61.520  53.500  68.870  1.00  0.00    -0.388 OA
+ATOM     19  H8  MOL  7029      62.270  53.280  69.410  1.00  0.00     0.210 HD
+ENDBRANCH   4  18
+BRANCH   1  20
+ATOM     20  C1  MOL  7029      57.510  55.090  68.280  1.00  0.00     0.198 C 
+BRANCH  20  21
+ATOM     21  O1  MOL  7029      56.550  54.230  68.850  1.00  0.00    -0.398 OA
+ATOM     22  H1  MOL  7029      55.680  54.580  68.710  1.00  0.00     0.209 HD
+ENDBRANCH  20  21
+ENDBRANCH   1  20
+BRANCH   3  23
+ATOM     23  O3  MOL  7029      59.530  52.820  67.170  1.00  0.00    -0.390 OA
+ATOM     24  H6  MOL  7029      58.770  52.470  66.730  1.00  0.00     0.210 HD
+ENDBRANCH   3  23
+TORSDOF 6
