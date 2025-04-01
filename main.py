@@ -1,7 +1,5 @@
 import sys, math, time, subprocess, ast
-from template_manager.template_manager import RealSolver
-from solver_real import run_solver_real
-from solver_int import run_solver_int
+from template_manager.template_manager import RealSolver, IntSolver
 from util.ligand import select_ligand_anchors, get_ligand_points, get_soa_ligand
 from util.create_pdb import create_pdb, center_protein
 from util.tri_linear_interpolation import apply_interpolation
@@ -49,54 +47,38 @@ def main():
     center_protein(center)
     center = [0,0,0]
 
-    if typing == 'real':
-        # Real version of the solver
-        print('Real solver')
-        d12 = float(f'{math.sqrt(sum(x**2 for x in d12)):.3f}')
-        d13 = float(f'{math.sqrt(sum(x**2 for x in d13)):.3f}')
-        d23 = float(f'{math.sqrt(sum(x**2 for x in d23)):.3f}')
+    d12 = float(f'{math.sqrt(sum(x**2 for x in d12)):.3f}')
+    d13 = float(f'{math.sqrt(sum(x**2 for x in d13)):.3f}')
+    d23 = float(f'{math.sqrt(sum(x**2 for x in d23)):.3f}')
 
-        spac = [p*spacing for p in points]
-        # print(ligand_points)
-        rs = RealSolver(center, spac, ligand_anchors, ligand_points, atomst)
-        
-        rs.generate_script()
-        start = time.time()
-        process = subprocess.run(['python3', 'solver_script.py'], stdout=subprocess.PIPE)
-        end = time.time()
-        final_pose = ast.literal_eval(process.stdout.decode())
-        # print(final_pose)
-        energy = 0
-        for i,p in enumerate(final_pose):
-            values = []
-            with open(f'a2a_adenosine/input/a2a_h.{atomst[i]}.map') as m:
-                for line in m:
-                    try:
-                        values.append(float(line.strip()))
-                    except ValueError:
-                        continue
-            ipol = apply_interpolation(p[0], p[1], p[2], values, "notz3")
-            energy += ipol
-        print(f'energy sat: {energy}')
-        print(f'Final pose of ligand anchors returned from solver: {final_pose}\nTime elapsed: {end - start}')
-        # transformed_points = rigid_transform(ligand_points, ligand_anchors[0], ligand_anchors[1], ligand_anchors[2], final_pose[0], final_pose[1], final_pose[2])
-        create_pdb(atoms, final_pose, typing)
-    else:
-        # Integer version of the solver (lattice)
-        print('Integer solver')
-        d12 = [ceildiv(el, spacing) for el in d12]
-        d13 = [ceildiv(el, spacing) for el in d13]
-
-        d12 = float(f'{math.sqrt(sum(x**2 for x in d12)/spacing):.3f}')
-        d13 = float(f'{math.sqrt(sum(x**2 for x in d13)/spacing):.3f}')
-        d23 = float(f'{math.sqrt(sum(x**2 for x in d23)/spacing):.3f}')
-        start = time.time()
-        final_points = run_solver_int(points,d12,d13,d23)
-        final_points = [(x - points[0]/2, y - points[1]/2, z - points[2]/2) for x, y, z in final_points]
-        print(f'Final lattice points: {final_points}')
-        final_pose = [(center[0] + final_point[0]*spacing, center[1] + final_point[1]*spacing, center[2] + final_point[2]*spacing) for final_point in final_points]
-        end = time.time()
-        print(f'Final pose of ligand anchors returned from solver: {final_pose}\nTime elapsed: {end - start}')
+    res = 4
+    bounds = [p*res for p in points] if typing=='int' else [p*spacing for p in points]
+    # print(ligand_points)
+    solver = IntSolver(center, bounds, spacing/res, ligand_anchors, ligand_points, atomst) if typing=='int' else RealSolver(center, bounds, ligand_anchors, ligand_points, atomst)
+    
+    solver.generate_script()
+    start = time.time()
+    process = subprocess.run(['python3', 'solver_script.py'], stdout=subprocess.PIPE)
+    end = time.time()
+    final_pose = ast.literal_eval(process.stdout.decode())
+    mult = spacing/res
+    if typing=='int':
+        final_pose = [(x * mult, y * mult, z * mult) for x, y, z in final_pose]
+    energy = 0
+    for i,p in enumerate(final_pose):
+        values = []
+        with open(f'a2a_adenosine/input/a2a_h.{atomst[i]}.map') as m:
+            for line in m:
+                try:
+                    values.append(float(line.strip()))
+                except ValueError:
+                    continue
+        ipol = apply_interpolation(p[0], p[1], p[2], values, "notz3")
+        energy += ipol
+    print(f'energy sat: {energy}')
+    print(f'Final pose of ligand anchors returned from solver: {final_pose}\nTime elapsed: {end - start}')
+    # transformed_points = rigid_transform(ligand_points, ligand_anchors[0], ligand_anchors[1], ligand_anchors[2], final_pose[0], final_pose[1], final_pose[2])
+    create_pdb(atoms, final_pose, typing)
     return final_pose
 
 main()
