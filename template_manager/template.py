@@ -27,7 +27,7 @@ energy = Int('energy')
 
 {{{{variables}}}}
 
-solver = Solver()
+solver = Optimize()
 
 # Constraints def
 solver.add(
@@ -45,6 +45,7 @@ solver.add(
 )
 
 # print('solving')
+solver.minimize(energy)
 result = solver.check()
 
 if result == sat:

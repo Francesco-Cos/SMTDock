@@ -78,7 +78,6 @@ class RealSolver:
         )
 
         builder.update(rotation_constraints=',\n'.join(
-            # f"xx{i} == x{i} - y{i}*r2 + q{i}*r1, yy{i} == x{i}*r2 + y{i} - q{i}*r0, qq{i} == -x{i}*r1 + y{i}*r0 + q{i}"
             f"xx{i} == x{i}*cosb*cosg + y{i}*(sina*sinb*cosg - cosa*sing) + q{i}*(cosa*sinb*cosg + sina*sing), " +
             f"yy{i} == x{i}*cosb*sing + y{i}*(sina*sinb*sing + cosa*cosg) + q{i}*(cosa*sinb*sing - sina*cosg), " +
             f"qq{i} == x{i}*(-sinb) + y{i}*sina*cosb + q{i}*cosa*cosb"
