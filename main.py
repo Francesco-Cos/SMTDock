@@ -21,6 +21,7 @@ def main():
     d23 = [ligand_anchors[1][i] - ligand_anchors[2][i] for i in range(3)]
     points, center = [], []
     spacing = 0
+    res = 4.0
     
     for line in lines:
         if 'npts' in line:
@@ -41,7 +42,7 @@ def main():
                     values.append(float(line.strip()))
                 except ValueError:
                     continue
-        ipol = apply_interpolation(p[0], p[1], p[2], values, 'notz3')
+        ipol = apply_interpolation(p[0], p[1], p[2], values, 'notz3', res)
         energy_soa += ipol
     print(f'energy soa: {energy_soa}')
     center_protein(center)
@@ -51,10 +52,9 @@ def main():
     d13 = float(f'{math.sqrt(sum(x**2 for x in d13)):.3f}')
     d23 = float(f'{math.sqrt(sum(x**2 for x in d23)):.3f}')
 
-    res = 4
     bounds = [p*res for p in points] if typing=='int' else [p*spacing for p in points]
     # print(ligand_points)
-    solver = IntSolver(center, bounds, spacing/res, ligand_anchors, ligand_points, atomst) if typing=='int' else RealSolver(center, bounds, ligand_anchors, ligand_points, atomst)
+    solver = IntSolver(center, bounds, spacing/res, res, ligand_anchors, ligand_points, atomst) if typing=='int' else RealSolver(center, bounds, res, ligand_anchors, ligand_points, atomst)
     
     solver.generate_script()
     start = time.time()
@@ -73,7 +73,7 @@ def main():
                     values.append(float(line.strip()))
                 except ValueError:
                     continue
-        ipol = apply_interpolation(p[0], p[1], p[2], values, "notz3")
+        ipol = apply_interpolation(p[0], p[1], p[2], values, "notz3", res)
         energy += ipol
     print(f'energy sat: {energy}')
     print(f'Final pose of ligand anchors returned from solver: {final_pose}\nTime elapsed: {end - start}')

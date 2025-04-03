@@ -4,9 +4,10 @@ from typing import Dict
 
 
 class RealSolver:
-    def __init__(self, center, bounds, anchor_points, ligand_points, atomst):
+    def __init__(self, center, bounds, res, anchor_points, ligand_points, atomst):
         self._center = center
         self._bounds = bounds
+        self._res = res
         self._anchor_points = anchor_points
         self._ligand_points = ligand_points
         self._atomst = atomst
@@ -22,6 +23,7 @@ class RealSolver:
     def _update_builder(self, builder):
         builder.update(center=self._center)
         builder.update(bounds=self._bounds)
+        builder.update(res=self._res)
         builder.update(atomst=self._atomst)
 
         builder.update(trig_variables='\n'.join(
@@ -86,7 +88,7 @@ class RealSolver:
         )
 
         builder.update(energy=' + '.join(
-            f'apply_interpolation(xx{i}, yy{i}, qq{i}, maps[atomst[{i}]], "z3")'
+            f'apply_interpolation(xx{i}, yy{i}, qq{i}, maps[atomst[{i}]], "z3", res)'
             for i in range(len(self._anchor_points) + len(self._ligand_points))
         ) + ','
         )
@@ -107,10 +109,11 @@ class RealSolver:
             ofile.write(builder.finalize())
 
 class IntSolver:
-    def __init__(self, center, bounds, spacing, anchor_points, ligand_points, atomst):
+    def __init__(self, center, bounds, spacing, res, anchor_points, ligand_points, atomst):
         self._center = center
         self._bounds = bounds
         self._spacing = spacing
+        self._res = res
         self._anchor_points = anchor_points
         self._ligand_points = ligand_points
         self._atomst = atomst
@@ -131,6 +134,7 @@ class IntSolver:
     def _update_builder(self, builder):
         builder.update(center=self._center)
         builder.update(bounds=self._bounds)
+        builder.update(res=self._res)
         builder.update(atomst=self._atomst)
 
         builder.update(trig_variables='')
@@ -183,7 +187,7 @@ class IntSolver:
         builder.update(rotation_constraints='')
 
         builder.update(energy=' + '.join(
-            f'apply_interpolation(x{i}, y{i}, q{i}, maps[atomst[{i}]], "z3")'
+            f'apply_interpolation(x{i}, y{i}, q{i}, maps[atomst[{i}]], "z3", res)'
             for i in range(len(self._anchor_points) + len(self._ligand_points))
         ) + ','
         )

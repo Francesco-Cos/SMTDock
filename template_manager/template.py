@@ -4,6 +4,7 @@ from util.tri_linear_interpolation import apply_interpolation
 
 set_option('smt.array.extensional', False)
 
+res = {{{{res}}}}
 center = {{{{center}}}}
 bounds = {{{{bounds}}}}
 atomst = {{{{atomst}}}}
@@ -13,6 +14,9 @@ for atomt in atomst:
         B = Array('B', IntSort(), IntSort())
         with open(f'a2a_adenosine/input/a2a_h.{atomt}.map') as m:
             i = 0
+            # for line in m.readlines()[6:]:
+            #     B = Store(B, i, int(float(line.strip())))
+            #     i = i + 1
             for line in m:
                 try:
                     B = Store(B, i, int(line.strip()))
@@ -27,7 +31,7 @@ energy = Int('energy')
 
 {{{{variables}}}}
 
-solver = Optimize()
+solver = Solver()
 
 # Constraints def
 solver.add(
@@ -41,11 +45,11 @@ solver.add(
 
     {{{{rotation_constraints}}}}
     energy == {{{{energy}}}}
-    energy < 100000
+    # energy < 10
 )
 
 # print('solving')
-solver.minimize(energy)
+# solver.minimize(energy)
 result = solver.check()
 
 if result == sat:
