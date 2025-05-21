@@ -27,11 +27,11 @@ def get_ligand_points(ligand):
     for branch in branches:
         for j,a in enumerate(branch):
             atom = a.split()
-            if j == 0 and i < 3:
-                anchors.append([float(atom[5]), float(atom[6]), float(atom[7])])
-                i += 1
-            else:
-                points.append([float(atom[5]), float(atom[6]), float(atom[7])])
+            # if i < 3:
+            #     anchors.append([float(atom[5]), float(atom[6]), float(atom[7])])
+            #     i += 1
+            # else:
+            points.append([float(atom[5]), float(atom[6]), float(atom[7])])
             atoms.append(atom[2])
             atomst.append(atom[11])
     return np.array(anchors), np.array(points), atoms, atomst

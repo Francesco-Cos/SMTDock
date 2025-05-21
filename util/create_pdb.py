@@ -15,6 +15,13 @@ def translate_protein(structure, center):
                 for atom in residue:
                     atom.coord = [atom.coord[i] - center[i] for i in range(3)]
 
+def shift_ligand(structure, center):
+    for model in structure:
+        for chain in model:
+            for residue in chain:
+                for atom in residue:
+                    atom.coord = [atom.coord[i] + center[i] for i in range(3)]
+
 def center_protein(center):
     pdb_file = "a2a_adenosine/a2a.pdb"
     pdb_parser = PDBParser(QUIET=True)
@@ -29,12 +36,13 @@ def center_protein(center):
 
     return output_pdb
 
-def create_pdb(atoms, new_points, typ):
+def create_pdb(atoms, new_points, typ, center):
     pdb_file = "a2a_adenosine/input/adenosine.pdbqt"
     pdb_parser = PDBParser(QUIET=True)
     structure = pdb_parser.get_structure("original_pdb1", pdb_file)
 
     mod_pdb_coords(structure, atoms, new_points)
+    shift_ligand(structure, center)
 
     output_pdb = f'new_adenosine_{typ}.pdb'
     pdb_io = PDBIO()
