@@ -42,7 +42,7 @@ def trilinear_interpolation(values, neighbors, enc):
         # xd = neighbors[1][0]
         # yd = neighbors[1][1]
         # zd = neighbors[1][2]
-
+        print(len(values), neighbors)
         c000 = values[neighbors]
         # c100 = values[neighbors[0][1]]
         # c010 = values[neighbors[0][2]]

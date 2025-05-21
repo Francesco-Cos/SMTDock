@@ -198,6 +198,15 @@ class IntSolver:
         ) + ','
         )
 
+        builder.update(space_constraints2=',\n'.join(
+            ', '.join(
+                f"center[{j}]-80 <= {d}{i}, {d}{i} < center[{j}]+80"
+                # f"center[{j}]-space_bounds <= {d}{i}, {d}{i} < center[{j}]+space_bounds"
+                for j, d in enumerate(['xx', 'yy', 'qq'])
+            ) for i in range(len(self._anchor_points))
+        ) + ','
+        )
+
         # com = self._center_of_mass(self._anchor_points)
         bounding_box = {'x': [0,0], 'y': [0,0], 'q': [0,0]}
         for i, pl in enumerate(self._ligand_points):
@@ -221,6 +230,15 @@ class IntSolver:
                 f"center[{j}]-80 <= {d}{i}, {d}{i} < center[{j}]+80"
                 # f"{d}0-{abs(bounding_box[d][0])+20} <= {d}{i}, {d}{i} <= {d}0+{abs(bounding_box[d][1])+20}"
                 for j, d in enumerate(['x', 'y', 'q'])
+            ) for i in range(len(self._anchor_points), len(self._anchor_points) + len(self._ligand_points))
+        ) + ','
+        )
+
+        builder.update(space_constraints_all2=',\n'.join(
+            ', '.join(
+                f"center[{j}]-80 <= {d}{i}, {d}{i} < center[{j}]+80"
+                # f"{d}0-{abs(bounding_box[d][0])+20} <= {d}{i}, {d}{i} <= {d}0+{abs(bounding_box[d][1])+20}"
+                for j, d in enumerate(['xx', 'yy', 'qq'])
             ) for i in range(len(self._anchor_points), len(self._anchor_points) + len(self._ligand_points))
         ) + ','
         )
@@ -314,17 +332,17 @@ class IntSolver:
         ) + ','
         )
 
-        builder.update(remove_duplicate=', '.join(
-            f'x{i} != selected_points[{i}][0], y{i} != selected_points[{i}][1], q{i} != selected_points[{i}][2]'
-            for i in range(len(self._anchor_points))
-        )
-        )
-
-        # builder.update(remove_duplicate=', \n\t\t\t'.join(
-        #     f'(x{i} - com_dup[0])**2 + (y{i} - com_dup[1])**2 + (q{i} - com_dup[2])**2 > (selected_points[0][0] - com_dup[0])**2 + (selected_points[0][1] - com_dup[1])**2 + (selected_points[0][2] - com_dup[2])**2' 
+        # builder.update(remove_duplicate=', '.join(
+        #     f'x{i} != selected_points[{i}][0], y{i} != selected_points[{i}][1], q{i} != selected_points[{i}][2]'
         #     for i in range(len(self._anchor_points))
         # )
         # )
+
+        builder.update(remove_duplicate=', \n\t\t\t'.join(
+            f'(x{i} - com_dup[0])**2 + (y{i} - com_dup[1])**2 + (q{i} - com_dup[2])**2 > (selected_points[0][0] - com_dup[0])**2 + (selected_points[0][1] - com_dup[1])**2 + (selected_points[0][2] - com_dup[2])**2' 
+            for i in range(len(self._anchor_points))
+        )
+        )
 
         builder.update(returned_points=',\n'.join('(' +
                                                   ','.join(

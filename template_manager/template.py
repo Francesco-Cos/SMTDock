@@ -22,7 +22,7 @@ for atomt in atomst:
         B = Array('B', IntSort(), IntSort())
         with open(f'a2a_adenosine/input/a2a_h.{atomt}.map') as m:
             original_lattice = m.readlines()[6:]
-        new_lattice = downsample(original_lattice, grid_size+1, new_size+1)
+        new_lattice = downsample(original_lattice, grid_size+1, new_size)
         with open(f'new_map_{atomt}.map', 'w') as f:
             f.write('\n'.join([f'{num}' for num in new_lattice]))
         i = 0
@@ -49,7 +49,7 @@ trans_energy = np.inf
 final_energy = np.inf
 final_points = []
 previous_models = []
-number_models = 10
+number_models = 20
 for i in range(number_models):
 
     solver = Solver()
@@ -121,6 +121,11 @@ for i in range(number_models):
         # Constraints def
         solver2.add(
             {{{{energy_constraints}}}}
+
+            {{{{space_constraints2}}}}
+
+            {{{{space_constraints_all2}}}}
+
             cond,
             {{{{energy2}}}}
 
@@ -143,7 +148,8 @@ for i in range(number_models):
             # {{{{print_energy}}}}
             # print(model.evaluate(energy2))
         else:
-            print("No possible ligand position")
+            # print("No possible ligand position")
+            continue
             selected_points = []
 
     selected_points = [

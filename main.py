@@ -64,7 +64,7 @@ def main():
     bounds = [int(p*res) for p in points] if typing=='int' else [p*spacing for p in points]
     space_bounds = int((size[0]/2) * res)
     # print(ligand_points)
-    solver = IntSolver(new_center, bounds, space_bounds, size[0], 20, spacing, int(res), ligand_anchors, ligand_points, atomst) if typing=='int' else RealSolver(center, bounds, res, ligand_anchors, ligand_points, atomst)
+    solver = IntSolver(new_center, bounds, space_bounds, size[0], 21, spacing, int(res), ligand_anchors, ligand_points, atomst) if typing=='int' else RealSolver(center, bounds, res, ligand_anchors, ligand_points, atomst)
     
     solver.generate_script()
     start = time.time()
