@@ -1,0 +1,15 @@
+npts 40 40 40                        # num.grid points in xyz
+gridfld hca3_h.maps.fld              # grid_data_file
+spacing 0.375                        # spacing(A)
+receptor_types OA N SA C NA HD A     # receptor atom types
+ligand_types HD A OA C               # ligand atom types
+receptor hca3_h.pdbqt                # macromolecule
+gridcenter 76.1 76.2 120.0           # xyz-coordinates or auto
+smooth 0.5                           # store minimum energy w/in rad(A)
+map hca3_h.HD.map                    # atom-specific affinity map
+map hca3_h.A.map                     # atom-specific affinity map
+map hca3_h.OA.map                    # atom-specific affinity map
+map hca3_h.C.map                     # atom-specific affinity map
+elecmap hca3_h.e.map                 # electrostatic potential map
+dsolvmap hca3_h.d.map              # desolvation potential map
+dielectric -0.1465                   # <0, AD4 distance-dep.diel;>0, constant

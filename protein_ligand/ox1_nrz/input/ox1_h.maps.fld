@@ -1,0 +1,44 @@
+# AVS field file
+#
+# AutoDock Atomic Affinity and Electrostatic Grids
+#
+# Created by /Users/francescocosta/miniconda3/envs/AMDock/lib/python3.9/site-packages/AMDock/data/autogrid4_mac.
+#
+#SPACING 0.375
+#NELEMENTS 48 48 48
+#CENTER 55.700 -2.100 30.900
+#MACROMOLECULE ox1_h.pdbqt
+#GRID_PARAMETER_FILE ox1_h.gpf
+#
+ndim=3			# number of dimensions in the field
+dim1=49			# number of x-elements
+dim2=49			# number of y-elements
+dim3=49			# number of z-elements
+nspace=3		# number of physical coordinates per point
+veclen=9		# number of affinity values at each point
+data=float		# data type (byte, integer, float, double)
+field=uniform		# field type (uniform, rectilinear, irregular)
+coord 1 file=ox1_h.maps.xyz filetype=ascii offset=0
+coord 2 file=ox1_h.maps.xyz filetype=ascii offset=2
+coord 3 file=ox1_h.maps.xyz filetype=ascii offset=4
+label=N-affinity	# component label for variable 1
+label=OA-affinity	# component label for variable 2
+label=HD-affinity	# component label for variable 3
+label=A-affinity	# component label for variable 4
+label=S-affinity	# component label for variable 5
+label=NA-affinity	# component label for variable 6
+label=C-affinity	# component label for variable 7
+label=Electrostatics	# component label for variable 7
+label=Desolvation	# component label for variable 8
+#
+# location of affinity grid files and how to read them
+#
+variable 1 file=ox1_h.N.map filetype=ascii skip=6
+variable 2 file=ox1_h.OA.map filetype=ascii skip=6
+variable 3 file=ox1_h.HD.map filetype=ascii skip=6
+variable 4 file=ox1_h.A.map filetype=ascii skip=6
+variable 5 file=ox1_h.S.map filetype=ascii skip=6
+variable 6 file=ox1_h.NA.map filetype=ascii skip=6
+variable 7 file=ox1_h.C.map filetype=ascii skip=6
+variable 8 file=ox1_h.e.map filetype=ascii skip=6
+variable 9 file=ox1_h.d.map filetype=ascii skip=6

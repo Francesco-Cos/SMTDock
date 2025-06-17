@@ -1,0 +1,17 @@
+npts 58 68 70                        # num.grid points in xyz
+gridfld hcar2_h.maps.fld             # grid_data_file
+spacing 1.000                        # spacing(A)
+receptor_types A NA OA HD N C SA     # receptor atom types
+ligand_types A NA OA HD N C          # ligand atom types
+receptor hcar2_h.pdbqt               # macromolecule
+gridcenter 123.8095 123.82050000000001 156.10500000000002 # xyz-coordinates or auto
+smooth 0.5                           # store minimum energy w/in rad(A)
+map hcar2_h.A.map                    # atom-specific affinity map
+map hcar2_h.NA.map                   # atom-specific affinity map
+map hcar2_h.OA.map                   # atom-specific affinity map
+map hcar2_h.HD.map                   # atom-specific affinity map
+map hcar2_h.N.map                    # atom-specific affinity map
+map hcar2_h.C.map                    # atom-specific affinity map
+elecmap hcar2_h.e.map                # electrostatic potential map
+dsolvmap hcar2_h.d.map              # desolvation potential map
+dielectric -0.1465                   # <0, AD4 distance-dep.diel;>0, constant
