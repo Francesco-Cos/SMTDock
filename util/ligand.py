@@ -20,11 +20,13 @@ def get_ligand_points(ligand):
     atomst = []
     branches = re.split('ROOT|ENDROOT|BRANCH|ENDBRANCH', data)
     branches = [b.split('\n') for b in branches[1:]]
-    branches = [sublist for sublist in [[item for item in sublist if 'ATOM' in item] for sublist in branches] if sublist]
+    branches = [sublist for sublist in [[item for item in sublist if ('ATOM' in item or 'HETATM' in item)] for sublist in branches] if sublist]
     i = 0
     for branch in branches:
         for j,a in enumerate(branch):
             atom = a.split()
+            if len(atom) > 12:
+                atom.pop(4)
             points.append([float(atom[5]), float(atom[6]), float(atom[7])])
             atoms.append(atom[2])
             atomst.append(atom[11])
@@ -37,5 +39,7 @@ def get_soa_ligand(ligand,center):
     for line in data:
         if 'HETATM' in line:
             atom = line.split()
+            if len(atom) > 11:
+                atom.pop(4)
             points.append([float(atom[5]) - center[0], float(atom[6]) - center[1], float(atom[7]) - center[2]])
     return np.array(points)

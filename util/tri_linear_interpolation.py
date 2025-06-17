@@ -30,7 +30,7 @@ def trilinear_interpolation(values, neighbor, enc):
     return c if enc=='z3' else c
 
 
-def apply_interpolation(x, y, z, values, enc, L, index_factor, grid_size=41):
+def apply_interpolation(x, y, z, values, enc, L, index_factor, grid_size):
     n = find_lattice_neighbors_1d(x, y, z, enc, L, index_factor, grid_size)
     return trilinear_interpolation(values, n, enc)
 

@@ -3,20 +3,22 @@ from typing import Dict
 import util.general_util as utl
 
 class IntSolver:
-    def __init__(self, space_bounds, size, new_size, spacing, res, anchor_points, ligand_points, atomst):
+    def __init__(self, protein, ligand, space_bounds, size, spacing, res, anchor_points, ligand_points, atomst):
         self._space_bounds = space_bounds
         self._size = size
-        self._new_size = new_size
         self._spacing = spacing/res
         self._orig_spacing = spacing
         self._res = res
         self._anchor_points = anchor_points
         self._ligand_points = ligand_points
         self._atomst = atomst
+        self._protein = protein
+        self._ligand = ligand
 
     def _update_builder(self, builder):
+        builder.update(protein=self._protein)
+        builder.update(ligand=self._ligand)
         builder.update(grid_size=self._size)
-        builder.update(new_size=self._new_size)
         builder.update(grid_spacing=self._spacing)
         builder.update(space_bounds=self._space_bounds)
         builder.update(res=self._res)
