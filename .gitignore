@@ -1,4 +1,6 @@
 # Custom ignore
+solver_script*
+*.csv
 .DS_Store
 *.txt
 
